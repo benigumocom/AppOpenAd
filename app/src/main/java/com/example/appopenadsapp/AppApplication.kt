@@ -5,12 +5,12 @@ import com.google.android.gms.ads.MobileAds
 
 class AppApplication : Application() {
 
-  private lateinit var appOpenManager: AppOpenManager
+  private lateinit var appOpenAdsManager: AppOpenAdsManager
 
   override fun onCreate() {
     super.onCreate()
     MobileAds.initialize(this) {}
-    appOpenManager = AppOpenManager(this)
+    appOpenAdsManager = AppOpenAdsManager(this)
   }
 
 }

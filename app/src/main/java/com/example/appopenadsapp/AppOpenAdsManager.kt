@@ -12,14 +12,14 @@ import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.appopen.AppOpenAd
 import java.util.*
 
-class AppOpenManager(
+class AppOpenAdsManager(
   private val appApplication: AppApplication
 ) : LifecycleObserver, Application.ActivityLifecycleCallbacks {
 
   private var ad: AppOpenAd? = null
   private var activity: Activity? = null
   private var loadTime: Long = 0
-  private var shown = false
+  private var showed = false
 
   init {
     appApplication.registerActivityLifecycleCallbacks(this)
@@ -40,20 +40,20 @@ class AppOpenManager(
   override fun onActivitySaveInstanceState(activity: Activity, bundle: Bundle) = Unit
 
   private fun showIfAvailable() {
-    if (!shown && loaded) {
+    if (!showed && loaded) {
       Log.d(LOG_TAG, "Will show ad.")
-      ad?.fullScreenContentCallback = object : FullScreenContentCallback() {
+      this.ad?.fullScreenContentCallback = object : FullScreenContentCallback() {
         override fun onAdDismissedFullScreenContent() {
-          ad = null
-          shown = false
+          this@AppOpenAdsManager.ad = null
+          showed = false
           load()
         }
-        override fun onAdFailedToShowFullScreenContent(adError: AdError) = Unit
         override fun onAdShowedFullScreenContent() {
-          shown = true
+          showed = true
         }
+        override fun onAdFailedToShowFullScreenContent(adError: AdError) = Unit
       }
-      activity?.let { ad?.show(it) }
+      activity?.let { this.ad?.show(it) }
     } else {
       Log.d(LOG_TAG, "Can not show ad.")
       load()
@@ -62,9 +62,10 @@ class AppOpenManager(
 
   private fun load() {
     if (loaded) return
+
     val loadCallback = object : AppOpenAd.AppOpenAdLoadCallback() {
       override fun onAppOpenAdLoaded(ad: AppOpenAd) {
-        this@AppOpenManager.ad = ad
+        this@AppOpenAdsManager.ad = ad
         loadTime = Date().time
       }
       override fun onAppOpenAdFailedToLoad(loadAdError: LoadAdError) = Unit
