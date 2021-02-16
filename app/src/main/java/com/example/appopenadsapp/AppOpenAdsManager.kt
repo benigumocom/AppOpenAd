@@ -42,18 +42,22 @@ class AppOpenAdsManager(
   private fun showIfAvailable() {
     if (!showed && loaded) {
       Log.d(LOG_TAG, "Will show ad.")
-      this.ad?.fullScreenContentCallback = object : FullScreenContentCallback() {
-        override fun onAdDismissedFullScreenContent() {
-          this@AppOpenAdsManager.ad = null
-          showed = false
-          load()
+      this.ad?.apply {
+        fullScreenContentCallback = object : FullScreenContentCallback() {
+          override fun onAdDismissedFullScreenContent() {
+            this@AppOpenAdsManager.ad = null
+            showed = false
+            load()
+          }
+          override fun onAdShowedFullScreenContent() {
+            showed = true
+          }
+          override fun onAdFailedToShowFullScreenContent(adError: AdError) = Unit
         }
-        override fun onAdShowedFullScreenContent() {
-          showed = true
+        activity?.run {
+          show(this)
         }
-        override fun onAdFailedToShowFullScreenContent(adError: AdError) = Unit
       }
-      activity?.let { this.ad?.show(it) }
     } else {
       Log.d(LOG_TAG, "Can not show ad.")
       load()
