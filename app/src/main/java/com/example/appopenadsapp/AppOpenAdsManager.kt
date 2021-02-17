@@ -13,7 +13,6 @@ class AppOpenAdsManager(
   private val appApplication: AppApplication
 ) : LifecycleObserver, Application.ActivityLifecycleCallbacks {
 
-
   /*
 
   App Open Ads  |  Android  |  Google Developers
@@ -30,7 +29,7 @@ class AppOpenAdsManager(
     }
   }
 
-   */
+  */
 
   private var ad: AppOpenAd? = null
   private var activity: Activity? = null
