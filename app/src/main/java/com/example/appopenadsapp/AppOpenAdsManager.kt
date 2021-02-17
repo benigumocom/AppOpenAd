@@ -40,7 +40,7 @@ class AppOpenAdsManager(
   override fun onActivitySaveInstanceState(activity: Activity, bundle: Bundle) = Unit
 
   private fun showIfAvailable() {
-    if (!showed && loaded) {
+    if (canShow) {
       Log.d(LOG_TAG, "Will show ad.")
       this.ad?.apply {
         fullScreenContentCallback = object : FullScreenContentCallback() {
@@ -74,17 +74,20 @@ class AppOpenAdsManager(
       }
       override fun onAppOpenAdFailedToLoad(loadAdError: LoadAdError) = Unit
     }
-    AppOpenAd.load(appApplication, AD_UNIT_ID, AdRequest.Builder().build(),
+    AppOpenAd.load(appApplication, UNIT_ID, AdRequest.Builder().build(),
       AppOpenAd.APP_OPEN_AD_ORIENTATION_PORTRAIT, loadCallback)
   }
 
+  private val canShow: Boolean
+    get() = !showed && loaded
+
   private val loaded: Boolean
-    get() = ad != null && Date().time - loadTime < 60 * 60 * 1000 * LOAD_HOURS
+    get() = ad != null && Date().time - loadTime < 60 * 60 * 1000 * LIFETIME
 
   companion object {
     private const val LOG_TAG = "AppOpenManager"
-    private const val AD_UNIT_ID = "ca-app-pub-3940256099942544/3419835294" // TEST ID
-    private const val LOAD_HOURS = 4
+    private const val UNIT_ID = "ca-app-pub-3940256099942544/3419835294" // TEST ID
+    private const val LIFETIME = 4
   }
 
 }
