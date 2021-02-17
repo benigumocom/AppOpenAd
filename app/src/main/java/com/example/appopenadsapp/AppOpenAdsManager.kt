@@ -16,7 +16,10 @@ class AppOpenAdsManager(
 
   /*
 
-  // use this in custom application class
+  App Open Ads  |  Android  |  Google Developers
+  https://developers.google.com/admob/android/app-open-ads
+
+  Use this in custom application class
 
   class AppApplication : Application() {
     private lateinit var appOpenAdsManager: AppOpenAdsManager
