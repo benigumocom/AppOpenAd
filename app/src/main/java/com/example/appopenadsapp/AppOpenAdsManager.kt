@@ -5,16 +5,29 @@ import android.app.Application
 import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.LifecycleObserver
-import com.google.android.gms.ads.AdError
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.FullScreenContentCallback
-import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.*
 import com.google.android.gms.ads.appopen.AppOpenAd
 import java.util.*
 
 class AppOpenAdsManager(
   private val appApplication: AppApplication
 ) : LifecycleObserver, Application.ActivityLifecycleCallbacks {
+
+
+  /*
+
+  // use this in custom application class
+
+  class AppApplication : Application() {
+    private lateinit var appOpenAdsManager: AppOpenAdsManager
+    override fun onCreate() {
+      super.onCreate()
+      MobileAds.initialize(this) {}
+      appOpenAdsManager = AppOpenAdsManager(this)
+    }
+  }
+
+   */
 
   private var ad: AppOpenAd? = null
   private var activity: Activity? = null
