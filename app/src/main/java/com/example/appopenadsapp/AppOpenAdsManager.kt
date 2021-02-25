@@ -101,6 +101,7 @@ class AppOpenAdsManager(
     this.activity = null
   }
 
+
   override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
     Timber.d("@@@ onActivity SaveInstanceState($activity, $outState)")
   }
