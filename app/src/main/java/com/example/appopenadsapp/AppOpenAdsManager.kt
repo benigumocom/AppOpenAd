@@ -19,6 +19,9 @@ class AppOpenAdsManager(
 
   /*
 
+  アプリのバックグラウンド⇆フォアグラウンドを検知する。ProcessLifecycleOwnerの導入
+  https://qiita.com/takusemba/items/92e700ee6c24a3398d03
+
   App Open Ads  |  Android  |  Google Developers
   https://developers.google.com/admob/android/app-open-ads
 
