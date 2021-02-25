@@ -3,7 +3,11 @@ package com.example.appopenadsapp
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
+import android.util.Log
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.ProcessLifecycleOwner
 import com.google.android.gms.ads.*
 import com.google.android.gms.ads.appopen.AppOpenAd
 import timber.log.Timber
@@ -38,22 +42,68 @@ class AppOpenAdsManager(
 
   init {
     appApplication.registerActivityLifecycleCallbacks(this)
+    ProcessLifecycleOwner.get().lifecycle.addObserver(this)
+  }
+
+  @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+  fun onAppCreate() {
+    Timber.d("@@@ onAppCreate()")
+  }
+
+  @OnLifecycleEvent(Lifecycle.Event.ON_START)
+  fun onAppStart() {
+    Timber.d("@@@ onAppStart()")
+  }
+
+  @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+  fun onAppResume() {
+    Timber.d("@@@ onAppResume()")
+  }
+
+  @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+  fun onAppPause() {
+    Timber.d("@@@ onAppPause()")
+  }
+
+  @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+  fun onAppStop() {
+    Timber.d("@@@ onAppStop()")
+  }
+
+  @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+  fun onAppDestroy() {
+    Timber.d("@@@ onAppDestroy()")
+  }
+
+  override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+    Timber.d("@@@ onActivityCreated($activity, $savedInstanceState)")
+  }
+
+  override fun onActivityStarted(activity: Activity) {
+    Timber.d("@@@ onActivityStarted($activity)")
   }
 
   override fun onActivityResumed(activity: Activity) {
+    Timber.d("@@@ onActivityResumed($activity)")
     this.activity = activity
     load()
   }
+  override fun onActivityPaused(activity: Activity) {
+    Timber.d("@@@ onActivityPaused($activity.)")
+  }
+
+  override fun onActivityStopped(activity: Activity) {
+    Timber.d("@@@ onActivityStopped($activity)")
+  }
 
   override fun onActivityDestroyed(activity: Activity) {
+    Timber.d("@@@ onActivityDestroyed($activity)")
     this.activity = null
   }
 
-  override fun onActivityCreated(activity: Activity, bundle: Bundle?) = Unit
-  override fun onActivityStarted(activity: Activity) = Unit
-  override fun onActivityPaused(activity: Activity) = Unit
-  override fun onActivityStopped(activity: Activity) = Unit
-  override fun onActivitySaveInstanceState(activity: Activity, bundle: Bundle) = Unit
+  override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
+    Timber.d("@@@ onActivity SaveInstanceState($activity, $outState)")
+  }
 
   private fun load() {
     if (loaded) {
