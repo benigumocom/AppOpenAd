@@ -48,42 +48,15 @@ class AppOpenAdsManager(
     ProcessLifecycleOwner.get().lifecycle.addObserver(this)
   }
 
-  @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-  fun onAppCreate() {
-    Timber.d("@@@ onAppCreate()")
-  }
-
   @OnLifecycleEvent(Lifecycle.Event.ON_START)
-  fun onAppStart() {
-    Timber.d("@@@ onAppStart()")
-  }
-
-  @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-  fun onAppResume() {
-    Timber.d("@@@ onAppResume()")
-  }
-
-  @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-  fun onAppPause() {
-    Timber.d("@@@ onAppPause()")
+  fun onAppForeground() {
+    Timber.d("@@@ onAppForeground()")
+    load()
   }
 
   @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-  fun onAppStop() {
-    Timber.d("@@@ onAppStop()")
-  }
-
-  @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-  fun onAppDestroy() {
-    Timber.d("@@@ onAppDestroy()")
-  }
-
-  override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-    Timber.d("@@@ onActivityCreated($activity, $savedInstanceState)")
-  }
-
-  override fun onActivityStarted(activity: Activity) {
-    Timber.d("@@@ onActivityStarted($activity)")
+  fun onAppBackground() {
+    Timber.d("@@@ onAppBackground()")
   }
 
   override fun onActivityResumed(activity: Activity) {
@@ -91,23 +64,18 @@ class AppOpenAdsManager(
     this.activity = activity
     load()
   }
-  override fun onActivityPaused(activity: Activity) {
-    Timber.d("@@@ onActivityPaused($activity.)")
-  }
-
-  override fun onActivityStopped(activity: Activity) {
-    Timber.d("@@@ onActivityStopped($activity)")
-  }
 
   override fun onActivityDestroyed(activity: Activity) {
     Timber.d("@@@ onActivityDestroyed($activity)")
     this.activity = null
   }
 
+  override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) = Unit
+  override fun onActivityStarted(activity: Activity) = Unit
+  override fun onActivityPaused(activity: Activity) = Unit
+  override fun onActivityStopped(activity: Activity) = Unit
+  override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) = Unit
 
-  override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
-    Timber.d("@@@ onActivity SaveInstanceState($activity, $outState)")
-  }
 
   private fun load() {
     if (loaded) {
